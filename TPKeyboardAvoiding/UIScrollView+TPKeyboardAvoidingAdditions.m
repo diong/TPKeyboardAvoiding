@@ -52,6 +52,7 @@ static const int kStateKey;
     state.animationDuration = [[info objectForKey:kUIKeyboardAnimationDurationUserInfoKey] doubleValue];
 
     CGRect keyboardRect = [self convertRect:[[info objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
+    keyboardRect.size.height += self.keyboardExtendHeight;
     if (CGRectIsEmpty(keyboardRect)) {
         return;
     }
@@ -129,6 +130,7 @@ static const int kStateKey;
 
 - (void)TPKeyboardAvoiding_keyboardWillHide:(NSNotification*)notification {
     CGRect keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
+    keyboardRect.size.height += self.keyboardExtendHeight;
     if (CGRectIsEmpty(keyboardRect) && !self.keyboardAvoidingState.keyboardAnimationInProgress) {
         return;
     }
@@ -423,6 +425,16 @@ static const int kStateKey;
             ((UITextField*)view).returnKeyType = UIReturnKeyDone;
         }
     }
+}
+
+- (CGFloat)keyboardExtendHeight
+{
+    return [objc_getAssociatedObject(self, @selector(keyboardExtendHeight)) floatValue];
+}
+
+- (void)setKeyboardExtendHeight:(CGFloat)keyboardExtendHeight
+{
+    objc_setAssociatedObject(self, @selector(keyboardExtendHeight), [NSNumber numberWithFloat:keyboardExtendHeight], OBJC_ASSOCIATION_RETAIN);
 }
 
 @end
