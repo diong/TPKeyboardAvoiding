@@ -53,6 +53,7 @@ static const int kStateKey;
 
     CGRect keyboardRect = [self convertRect:[[info objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
     keyboardRect.size.height += self.keyboardExtendHeight;
+    keyboardRect.origin.y -= self.keyboardExtendHeight;
     if (CGRectIsEmpty(keyboardRect)) {
         return;
     }
@@ -131,6 +132,7 @@ static const int kStateKey;
 - (void)TPKeyboardAvoiding_keyboardWillHide:(NSNotification*)notification {
     CGRect keyboardRect = [self convertRect:[[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue] fromView:nil];
     keyboardRect.size.height += self.keyboardExtendHeight;
+    keyboardRect.origin.y -= self.keyboardExtendHeight;
     if (CGRectIsEmpty(keyboardRect) && !self.keyboardAvoidingState.keyboardAnimationInProgress) {
         return;
     }
